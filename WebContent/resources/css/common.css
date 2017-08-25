@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+html,body{height:100%,margin:0;padding:0;border:0;}
+#wrapper{position:relative;min-width: 100%; padding-bottom:150px;}
+table{border-collapse:collapse;}
+header{width:100%;height:50px}
+footer{position:absolute; bottom: 0; left: 0; width:100%;height:100px;padding-left:15px;padding-top:10px background-color:lightpink;}
+footer div{margin:0 auto;width:80%;}
+#go_main{float:right}
+#title{text-align:center;}
+#container{margin: 0 auto; width:90%;height:480px; padding-top:60px;}
+ 	.gms-text-center{text-align:center;}
+ 	.gms-border-black{border:1px solid black;}
+ 	.gms-width-50pro{width: 50%;}
+ 	.gms-width-100pro{width: 100%;}
+ 	.gms-text-deco-none{text-decoration: none;}
+ 	.gms-table-border{border-collapse:collapse;}
+ 	.gms-height-25pro{height: 25px;}
+ 	.gms-list-styletype{list-style-type: none;}
+ 	.gms-margin-0pro{margin: 0 auto;}
+ 	.gms-color-powderblue{color:black;}
+ 	.gms-border-solid{border:1px solid black;}
+ 	.gms-bg-color{background-color:#d0aec6;}
+ 	.gms-d-inline{display: inline-block}
+ 	.gms-float-right{float:right}
+ 	
+ 	
+ 	
+/* unvisited link */
+a:link {color: red;}
+/* visited link */
+a:visited {color: green;}
+
+/* mouse over link */
+a:hover {color: hotpink;font-size:15px;}
+
+/* selected link */
+a:active {color: blue;}

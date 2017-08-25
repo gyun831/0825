@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+@IMPORT "common.css";
+/*index.html*/
+#index-tab{margin:0 auto;border:2px solid red;padding-top:50px;}
+#index-tab-tr>th{border:1px solid black; width: 30%; text-align:center;padding:10px;text-decoration: none;}
+#index-tab-tr>td{border:1px solid black; width: 30%; text-align:center;padding:10px;}
+.index-ul{width:200px;list-style-type: none; margin: 0 auto;margin-top:10px;}
+.index-ul>li{border: 1px solid black;margin-right:25px;}
+.index-ul>li>a{text-decoration:none;}
+
+/*login.html*/
+#login_form{margin:0 auto;}
+#login_id{color:blue;display:inline-block;width:86px;}
+#login_pass{color:blue;}
+#login_btn{background-color:blue;color:white;width:160px;height:50px;}
+#cancle_btn{background-color:red;color:white;width:160px;height:50px;}
+
+/*member_add.jsp*/
+#join_id{width: 100px; display:inline-block;}
+#join_pass{width: 100px; display:inline-block;}
+#join_name{width: 100px; display:inline-block;}
+#join_phone{width: 100px; display:inline-block;}
+#join_birth{width: 100px; display:inline-block;}
+#join_gender{width: 100px; display:inline-block;}
+#join_email{width: 100px; display:inline-block;}
+#join_yes_btn{background-color:blue;color:white;width:80px;height:30px;}
+#join_no_btn{background-color:red;color:white;width:80px;height:30px;}
+
+
+/*member_detail.html*/
+#detail_tab{width:90%;margin:0 auto;}
+#detail_tab th{backgroud-color:#855aa5;padding: 8px;text-align: left;border-bottom: 1px solid #3e3746;}
+#detail_tab td{padding: 8px;text-align: left;border-bottom: 1px solid #3e3746;}
+#member_detail_tab{width:30%;margin:0 auto;}
+#member_detail_tab td{border: 1px solid #3e3746;height:30px;}
+
+/*member_search*/
+#member_search_box{width:300px;margin:0 auto;}
+
+
