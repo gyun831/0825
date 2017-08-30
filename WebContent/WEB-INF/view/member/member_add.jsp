@@ -42,14 +42,6 @@
 	</fieldset>
 	</form>
 </div>
-<script>
-	function memberAdd(){
-		var form = document.getElementById('join_form');
-		form.action="${ctx}/member.do";
-		form.method="post";
-		form.submit();
-		return true;
-	}
-</script>
+
 
 

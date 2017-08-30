@@ -53,9 +53,10 @@
 	 location.href="${ctx}/"+dir+".do?action=list&page="+page+"&pageNumber="+pageNumber;
  }
  function mainLoad(){
-	 var u1 = document.getElementById("main_ul_stu");
-	 var u2 = document.getElementById("main_ul_grade");
-	 var u3 = document.getElementById("main_ul_board");
+	 var main_ul=[];
+	 var u1 = $("#main_ul_stu");
+	 var u2 = $("#main_ul_grade");
+	 var u3 = $("#main_ul_board");
 	 u1.setAttribute("class","list-group");
 	 u2.setAttribute("class","list-group");
 	 u3.setAttribute("class","list-group");
@@ -94,7 +95,7 @@ function navbarLoad(){
 	 var u1 = document.getElementById("navbar_ul_stu");
 	 var u2 = document.getElementById("navbar_ul_grade");
 	 var u3 = document.getElementById("navbar_ul_board");
-	 document.getElementById("logout").setAttribute("onclick","log_out('common','index')");
+	 document.getElementById("logout").setAttribute("onclick","log_out('common','home2')");
 	 u1.setAttribute("class","dropdown-menu");
 	 u2.setAttribute("class","dropdown-menu");
 	 u3.setAttribute("class","dropdown-menu");
@@ -120,6 +121,47 @@ function navbarLoad(){
 	 u3c[2].setAttribute("onclick","moveTo('board','board_detail')");
 	 u3c[3].setAttribute("onclick","moveTo('board','board_update')");
 	 u3c[4].setAttribute("onclick","gms_del('게시글')");
+}
+function updateStudent(id){
+	alert('수정할 id'+id);
+	location.href="${ctx}/member.do?action=update&page=member_update&id="+id;
+}
+function deleteStudent(id){
+	alert('삭제할 id'+id);
+	location.href="${ctx}/member.do?action=delete&page=member_delete&id="+id;
+}
+function detailStudent(id){
+	alert('조회할 id'+id);
+	location.href="${ctx}/member.do?action=detail&page=member_detail&id="+id;
+}
+function searchStudent(){
+	var search_id=document.getElementById("search_id").value;
+	location.href="${ctx}/member.do?action=search&page=member_list&search_id="+search_id;
+}
+function test(){
+	  alert('aaa');
+	  document.querySelector('#updateBtn').onclick=studentInfo;
+	  
+}
+
+function studentInfo(){
+	  var id='id',
+	      id_val='${requestScope.student.id}',
+	      name='name',
+	      name_val='${requestScope.student.name}',
+	      email='email',
+	      email_val='${requestScope.student.email}'
+	      ;
+	  sessionStorage.setItem(id,id_val);    
+	  sessionStorage.setItem(name,name_val);    
+	  sessionStorage.setItem(email,email_val);    
+}
+function memberAdd(){
+	var form = document.getElementById('join_form');
+	form.action="${ctx}/member.do";
+	form.method="post";
+	form.submit();
+	return true;
 }
  </script>
   </div>

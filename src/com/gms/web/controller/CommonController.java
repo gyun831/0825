@@ -19,7 +19,7 @@ import com.gms.web.util.DispatcherServlet;
 import com.gms.web.util.Separator;
 
 
-@WebServlet("/common.do")
+@WebServlet({"/home.do","/common.do"})
 public class CommonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class CommonController extends HttpServlet {
 		MemberBean bean = new MemberBean();
 		System.out.println("CommonController Get 진입");
 		Separator.init(request);
-		switch(request.getParameter(Action.CMD)){
+		switch(Separator.cmd.getAction()){
 		case Action.MOVE:
 			DispatcherServlet.send(request, response);
 			break;
@@ -43,6 +43,7 @@ public class CommonController extends HttpServlet {
 			Separator.cmd.setPage(String.valueOf(map.get("page")));
 			Separator.cmd.process();
 			DispatcherServlet.send(request, response);
+			break;
 		case Action.LOGOUT:
 			session.invalidate();
 			DispatcherServlet.send(request, response);

@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import com.gms.web.command.Command;
 import com.gms.web.dao.MemberDAOImpl;
 import com.gms.web.domain.MajorBean;
 import com.gms.web.domain.MemberBean;
+import com.gms.web.domain.StudentBean;
 
 public class MemberServiceImpl implements MemberService {
 	public static MemberServiceImpl instance = new MemberServiceImpl();
@@ -26,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("member service 진입");
 		MemberBean m =(MemberBean) map.get("member");
 		System.out.println("넘어온 회원의 이름:"+m.getName());
+		@SuppressWarnings("unchecked")
 		List<MajorBean>list= (List<MajorBean>) map.get("major");
 		System.out.println("넘어온 수강과목:"+list);
 		MemberDAOImpl.getInstance().insert(map);
@@ -33,43 +35,45 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<?> list(Object o) {
-		return MemberDAOImpl.getInstance().selectAll(o);
+	public List<?> list(Command cmd) {
+		return MemberDAOImpl.getInstance().selectAll(cmd);
 	}
 
 	@Override
-	public String countMembers() {
-		return String.valueOf(MemberDAOImpl.getInstance().count());
+	public String countMembers(Command cmd) {
+		return String.valueOf(MemberDAOImpl.getInstance().count(cmd));
 	}
 
 	@Override
-	public MemberBean findById(String id) {
-		return MemberDAOImpl.getInstance().selectById(id);
+	public StudentBean findById(Command cmd) {
+		return MemberDAOImpl.getInstance().selectById(cmd);
 	}
 
 	@Override
-	public List<MemberBean> findByName(String name) {
-		return MemberDAOImpl.getInstance().selectByName(name);
+	public List<?> findByName(Command cmd) {
+		return MemberDAOImpl.getInstance().selectByName(cmd);
 	}
 	@Override
-	public String modify(MemberBean bean) {
-		return (Integer.parseInt(MemberDAOImpl.getInstance().update(bean))==1)?"수정성공":"수정실패";
+	public String modify(StudentBean student) {
+		return (Integer.parseInt(MemberDAOImpl.getInstance().update(student))==1)?"수정성공":"수정실패";
 	}
 
 	@Override
-	public String remove(String id) {
-		return (Integer.parseInt(MemberDAOImpl.getInstance().delete(id))==1)?"삭제성공":"삭제실패";
+	public String remove(Command cmd) {
+		return (Integer.parseInt(MemberDAOImpl.getInstance().delete(cmd))==1)?"삭제성공":"삭제실패";
 	}
 	@Override
 	public Map<String,Object> login(MemberBean bean) {
 		Map<String,Object> map = new HashMap<>();
-		MemberBean member = MemberDAOImpl.getInstance().selectById(bean.getId());
+		Command cmd = new Command();
+		cmd.setSearch(bean.getId());
+		StudentBean student = findById(cmd);
 		String page=
-		 (member!=null)?
-				(bean.getPw().equals(member.getPw()))?
+		 (student!=null)?
+				(bean.getPw().equals(student.getPw()))?
 						"home":"login_fail":"join";
 		map.put("page", page);
-		map.put("user", member);
+		map.put("user", student);
 		return map;
 	}
 }

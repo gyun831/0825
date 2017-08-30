@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gms.web.command.Command;
 import com.gms.web.constant.DB;
 import com.gms.web.constant.SQL;
 import com.gms.web.constant.Vendor;
@@ -16,7 +17,6 @@ import java.sql.*;
 
 public class MemberDAOImpl implements MemberDAO {
 	StudentBean student;
-	MemberBean member;
 	Connection conn;
 	
 	public static MemberDAOImpl getInstance(){
@@ -24,13 +24,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	private MemberDAOImpl(){
 		conn=null;
-		member=null;
 		student=null;
 	}
 	@Override
 	public String insert(Map<?,?> map) {
 		String rs = "";
 		MemberBean bean = (MemberBean)map.get("member");
+		@SuppressWarnings("unchecked")
 		List<MajorBean> list=  (List<MajorBean>) map.get("major");
 		PreparedStatement pstmt=null;
 
@@ -48,7 +48,7 @@ public class MemberDAOImpl implements MemberDAO {
 			pstmt.executeUpdate();
 			for(int i=0; i<list.size();i++){
 				pstmt =conn.prepareStatement(SQL.MAJOR_INSERT);
-				pstmt.setString(1,list.get(i).getMajorId()+i);
+				pstmt.setString(1,list.get(i).getMajorId()+(int) (Math.random()*100+1));
 				pstmt.setString(2,list.get(i).getTitle());
 				pstmt.setString(3,list.get(i).getId());
 				pstmt.setString(4,list.get(i).getSubjId());
@@ -69,14 +69,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<?> selectAll(Object o) {
+	public List<?> selectAll(Command cmd) {
 		List<StudentBean> list = new ArrayList<StudentBean>();
-		int[] arr=(int[])o;
 		try {
 			conn= DatabaseFactory.createDatabase(Vendor.ORACLE,DB.USERNAME,DB.PASSWORD).getConnection();
 			PreparedStatement pstmt =conn.prepareStatement(SQL.STUDENT_LIST);
-			pstmt.setString(1, String.valueOf(arr[0]));
-			pstmt.setString(2, String.valueOf(arr[1]));
+			pstmt.setString(1, cmd.getStartRow());
+			pstmt.setString(2, cmd.getEndRow());
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
 				student = new StudentBean();
@@ -97,20 +96,26 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<MemberBean> selectByName(String name) {
-		List<MemberBean>list = new ArrayList<MemberBean>();
+	public List<?> selectByName(Command cmd) {
+		System.out.println(cmd.getSearch());
+		List<StudentBean>list = new ArrayList<StudentBean>();
 		try {
-			PreparedStatement pstmt= DatabaseFactory.createDatabase(Vendor.ORACLE,DB.USERNAME,DB.PASSWORD).getConnection().prepareStatement(SQL.MEMBER_FINDBYNAME);
-			pstmt.setString(1,name);
+			PreparedStatement pstmt= DatabaseFactory.createDatabase(Vendor.ORACLE,DB.USERNAME,DB.PASSWORD).getConnection().prepareStatement(SQL.STUDENT_SEARCH);
+			pstmt.setString(1,"%"+cmd.getSearch()+"%");
+			pstmt.setString(2,cmd.getStartRow());
+			pstmt.setString(3,cmd.getEndRow());
 			ResultSet rs=pstmt.executeQuery();
-			if(rs.next()){
-				member = new MemberBean();
-				member.setId(rs.getString(DB.MEM_ID));
-				member.setName(rs.getString(DB.NAME));
-				member.setPw(rs.getString(DB.PASS));
-				member.setSsn(rs.getString(DB.SSN));
-				member.setRegdate(rs.getString(DB.REGDATE));
-				list.add(member);
+			while(rs.next()){
+				student = new StudentBean();
+				student.setNo(rs.getString(DB.NO));
+				student.setId(rs.getString(DB.ID));
+				student.setName(rs.getString(DB.NAME));
+				student.setEmail(rs.getString(DB.EMAIL));
+				student.setPhone(rs.getString(DB.PHONE));
+				student.setRegdate(rs.getString(DB.REGDATE));
+				student.setSsn(rs.getString(DB.SSN));
+				student.setTitle(rs.getString(DB.TITLE));
+				list.add(student);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,49 +123,64 @@ public class MemberDAOImpl implements MemberDAO {
 		return list;
 	}
 	@Override
-	public MemberBean selectById(String id) {
-		MemberBean member = null;
+	public StudentBean selectById(Command cmd) {
 		try {
-			PreparedStatement pstmt = DatabaseFactory.createDatabase(Vendor.ORACLE,DB.USERNAME,DB.PASSWORD).getConnection().prepareStatement(SQL.MEMBER_FINDBYID);
+			PreparedStatement pstmt = DatabaseFactory.createDatabase(Vendor.ORACLE,DB.USERNAME,DB.PASSWORD).getConnection().prepareStatement(SQL.STUDENT_FINDBYID);
 		
-			pstmt.setString(1,id);
+			pstmt.setString(1,cmd.getSearch());
 			ResultSet rs = pstmt.executeQuery(); 
 			while(rs.next()) {
-				member = new MemberBean();
-				member.setId(rs.getString(DB.MEM_ID));
-				member.setName(rs.getString(DB.NAME));
-				member.setPw(rs.getString(DB.PASS));
-				member.setSsn(rs.getString(DB.SSN));
+				student = new StudentBean();
+				student.setNo(rs.getString(DB.NO));
+				student.setId(rs.getString(DB.ID));
+				student.setPw(rs.getString(DB.PASS));
+				student.setName(rs.getString(DB.NAME));
+				student.setEmail(rs.getString(DB.EMAIL));
+				student.setPhone(rs.getString(DB.PHONE));
+				student.setRegdate(rs.getString(DB.REGDATE));
+				student.setSsn(rs.getString(DB.SSN));
+				student.setTitle(rs.getString(DB.TITLE));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return member;
+		return student;
 	}
 
 	@Override
-	public String count() {
+	public String count(Command cmd) {
 		int cnt = 0;
-		try {
-			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DB.USERNAME, DB.PASSWORD).getConnection().prepareStatement(SQL.STUDENT_COUNT).executeQuery();
+		System.out.println("count("+cmd.getSearch()+")");
+		System.out.println("count("+cmd.getColumn()+")");
+		PreparedStatement pstmt;
+		ResultSet rs;
+		System.out.println("search : "+cmd.getSearch());
+		if(cmd.getSearch()==null){
+			cmd.setSearch("%");
+		}else{
+			cmd.setSearch("%"+cmd.getSearch()+"%");
+		}
+		try{
+			pstmt = DatabaseFactory.createDatabase(Vendor.ORACLE, DB.USERNAME, DB.PASSWORD).getConnection().prepareStatement(SQL.STUDENT_COUNT);
+			pstmt.setString(1,cmd.getSearch());
+			rs = pstmt.executeQuery();
 			if(rs.next()){
 				cnt = Integer.parseInt(rs.getString("count"));
-			}
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return String.valueOf(cnt);
 	}
-
 	@Override
-	public String update(MemberBean member) {
+	public String update(StudentBean student) {
 		int rs = 0;
 		try {
 			PreparedStatement pstmt = DatabaseFactory.createDatabase(Vendor.ORACLE, DB.USERNAME, DB.PASSWORD).
 												getConnection().prepareStatement(SQL.MEMBER_UPDATE);
-			pstmt.setString(1,member.getPw());
-			pstmt.setString(2, member.getId());
+			pstmt.setString(1,student.getPw());
+			pstmt.setString(2, student.getId());
 			rs = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,12 +190,12 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public String delete(String id) {
+	public String delete(Command cmd) {
 		int rs = 0;
 		try {
 			PreparedStatement pstmt = DatabaseFactory.createDatabase(Vendor.ORACLE, DB.USERNAME, DB.PASSWORD).
 																	getConnection().prepareStatement(SQL.MEMBER_DELETE);
-			pstmt.setString(1,id);
+			pstmt.setString(1,cmd.getSearch());
 			rs = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

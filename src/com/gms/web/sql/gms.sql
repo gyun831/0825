@@ -82,7 +82,7 @@ DROP TABLE member;
 
 --DML
 INSERT INTO Member(member_id,name,password,ssn,regdate,phone,email,major_id,profile)
-values('mankiew','맨큐','1','701201-1234567',SYSDATE,'010-1234-5678','mankiew@test.com','economics','mankiew.jpg');
+values('ddd','홍길동','1','701201-1234567',SYSDATE,'010-1234-5678','ddd@test.com','computer','defaultimg.jpg');
 
 SELECT * FROM MEMBER;
 
@@ -123,6 +123,7 @@ CREATE TABLE Student(
 	primary key(member_id),
 	FOREIGN KEY(member_id) REFERENCES Member(member_id) ON DELETE CASCADE
 );
+SELECT * FROM STUDENT;
 DROP TABLE Student;
 --DML
 INSERT INTO STUDENT(MEMBER_ID,STU_NO)

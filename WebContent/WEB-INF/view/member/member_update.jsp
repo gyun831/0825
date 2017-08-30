@@ -1,42 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="member_head.jsp" />
+<jsp:include page="member_head.jsp"/>
+		<div class="container" style="width:60%">
+			<div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">${requestScope.student.name}</h1>
+	               		<hr />
+	               	</div>
+	            </div> 
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="#">
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">${requestScope.student.id}</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="Steve Jobs"/>
+								</div>
+							</div>
+						</div>
 
-<div id="container">
-	<form action="${ctx}/member/service_update.jsp" method="get">
-	<table id="member_detail_tab">
-		<tr>
-			<td colspan="2" rowspan="3" ><img src="${img}/2.jpg" width="130px" height="100px"/></td>
-			<td>이름</td>
-			<td><input type="text" name="name" placeholder="" /></td>
-		</tr>
-		<tr>
-			<td>ID</td>
-			<td><input type="hidden" name="id" value=""/></td>
-		</tr>
-		<tr>
-			<td>SSN</td>
-			<td><input type="hidden" name="ssn" value="" /></td>
-		</tr>
-		<tr>
-			<td>전화번호</td>
-			<td colspan="3"><input type="text" name="phone" placeholder="" /></td>
-		</tr>
-		<tr>
-			<td>이메일</td>
-			<td colspan="3"><input type="text" name="email" placeholder="" /></td>
-		</tr>
-		<tr>
-			<td>전공</td>
-			<td colspan="3"><input type="text" name="major" placeholder="" /></td>
-		</tr>
-		<tr>
-			<td>학점</td>
-			<td colspan="3"><input type="text" name="subject" placeholder="A" /></td>
-		</tr>
-	</table>
-	<input type="submit" id="confim_btn" value="수 정"/>
-	<input type="button" onclick="javascript:cancel()" value="취 소" />
-	</form>
-</div>
-		<br /><br /><br /><br />
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="email" id="email"  placeholder="user@example.com"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">PHONE</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="password" data-toggle="popover" placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+								</div>
+								<span id="confirmPass"></span>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<button type="button" class="btn btn-primary btn-lg btn-block login-button">UPDATE</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 <jsp:include page="../common/footer.jsp"/>

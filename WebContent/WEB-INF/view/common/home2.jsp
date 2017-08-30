@@ -19,9 +19,9 @@
 	<form id="login_box" name="login_box">
 		<a href="${ctx}/index.jsp"><img src="${img}/google.jpg" width="320" height="100"/></a><br>
 		<span id="login_id">ID</span>
-	  	<input type="text" id="input_id" name="id"/><br> 
+	  	<input type="text" id="input_id" name="id" value="hong"/><br> 
 		<span id="login_pass">PASSWORD</span>
-		<input type="password" id="input_pass" name="pass"/><br>
+		<input type="password" id="input_pass" name="pass" value="1"/><br>
 		<br/>
 		<input type="submit" value="LOGIN" onclick="login_alert()" id="login_btn" />
 		<input type="reset" value="CANCEL" id="cancle_btn">

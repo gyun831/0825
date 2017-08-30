@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StudentBean {
-	private String no,id,name,ssn,regdate,phone,email,title;
+	private String no,id,name,pw,ssn,regdate,phone,email,title;
 
 	@Override
 	public String toString() {

@@ -22,7 +22,5 @@ public class PageProxy extends Proxy {
 		request.setAttribute("prevBlock", arr[4]);
 		request.setAttribute("endBlock", arr[5]);
 		request.setAttribute("list", list);
-		
 	}
-
 }
